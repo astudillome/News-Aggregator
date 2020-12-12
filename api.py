@@ -13,5 +13,4 @@ def get_current_time():
 @app.route('/nytresults', methods=['GET'])
 def get_articles():
   data = requests.get("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election&api-key=0XvEh8pQ6usIUskmlliZNvlebumtyLml").json()
-  print(data)
   return {'nyt_data': data}
