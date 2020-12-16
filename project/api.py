@@ -68,20 +68,19 @@ def logout():
   logout_user()
   return redirect(url_for('index'))
 
+# @app.route('/results')
+# def results():
+#   return render_template('results.html')
 
+@app.route('/results', methods=['GET', 'POST'])
+def results():
+  search = request.args.get('query')
+  nytdata = requests.get(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q={search}&api-key=0XvEh8pQ6usIUskmlliZNvlebumtyLml").json()
 
-@app.route('/nytresults', methods=['GET'])
-def get_nyt_articles():
-  data = requests.get("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election&api-key=0XvEh8pQ6usIUskmlliZNvlebumtyLml").json()
-  return {'nyt_data': data}
-
-
-@app.route('/tgresults', methods=['GET'])
-def get_tg_articles():
-  data = requests.get(
-      "https://content.guardianapis.com/search?q=debates&api-key=c6d3f3d8-27ce-4d7c-8e54-d9a6d768d53c").json()
-  return {'tg_data': data}
-
+  tgdata = requests.get(f"https://content.guardianapis.com/search?q={search}&api-key=c6d3f3d8-27ce-4d7c-8e54-d9a6d768d53c").json()
+  
+  return render_template('results.html', nyt_data=nytdata, tg_data=tgdata)
+  
 
 @app.route('/users/<int:id>', methods=['GET'])
 def get_user(id):

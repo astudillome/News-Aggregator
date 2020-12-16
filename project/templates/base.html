@@ -22,6 +22,7 @@
                 <a href="{{ url_for('profile') }}" class="navbar-item">
                   Profile
                 </a>
+                <a href="{{ url_for('results') }}" class="navbar-item"> Results </a>
                 <a href="{{ url_for('login') }}" class="navbar-item"> Login </a>
                 <a href="{{ url_for('signup') }}" class="navbar-item">
                   Sign Up
@@ -30,14 +31,21 @@
                   Logout
                 </a>
               </div>
-              <div class="navbar-item field">
-                <p class="control has-icons-right">
-                  <input class="input" type="search" placeholder="Search..." />
-                  <span class="icon is-small is-right">
-                    <icon />
-                  </span>
+              <form method="GET" action="{{ url_for('results') }}" class="search_form">
+              <div class="field is-grouped">
+                <p class="control is-expanded">
+                  <input
+                    class="input"
+                    type="text"
+                    name="query"
+                    placeholder="search..."
+                  />
+                </p>
+                <p class="control">
+                  <input type="submit" class="button is-info" value="Search">
                 </p>
               </div>
+              </form>
             </div>
           </div>
         </nav>
@@ -45,7 +53,8 @@
 
       <div class="hero-body">
         <div class="container has-text-centered">
-          {% block content %} {% endblock %}
+          {% block content %} 
+          {% endblock %}
         </div>
       </div>
     </section>
