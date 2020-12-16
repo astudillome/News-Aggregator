@@ -1,4 +1,3 @@
-import time
 import requests
 import json
 from flask import Flask, abort, jsonify, request, g, url_for, redirect, flash, render_template
@@ -68,9 +67,6 @@ def logout():
   logout_user()
   return redirect(url_for('index'))
 
-# @app.route('/results')
-# def results():
-#   return render_template('results.html')
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
@@ -81,6 +77,10 @@ def results():
   
   return render_template('results.html', nyt_data=nytdata, tg_data=tgdata)
   
+@app.route('/archive', methods=['GET', 'POST'])
+def archive():
+  return 'testing'
+
 
 @app.route('/users/<int:id>', methods=['GET'])
 def get_user(id):
