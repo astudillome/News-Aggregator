@@ -7,22 +7,18 @@ from flask_login import login_user, login_required, current_user, logout_user
 from project.models import User
 from project.app import db, app
 
-
 @app.route('/')
 def index():
   return render_template('index.html')
-
 
 @app.route('/profile')
 @login_required
 def profile():
   return render_template('profile.html', name=current_user.name)
 
-
 @app.route('/login')
 def login():
   return render_template('login.html')
-
 
 @app.route('/login', methods=['POST'])
 def login_post():
@@ -37,11 +33,9 @@ def login_post():
   login_user(user, remember=remember)
   return redirect(url_for('profile'))
 
-
 @app.route('/signup')
 def signup():
   return render_template('signup.html')
-
 
 @app.route('/signup', methods=['POST'])
 def signup_post():
@@ -60,13 +54,11 @@ def signup_post():
 
   return redirect(url_for('login'))
 
-
 @app.route('/logout')
 @login_required
 def logout():
   logout_user()
   return redirect(url_for('index'))
-
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
@@ -78,9 +70,11 @@ def results():
   return render_template('results.html', nyt_data=nytdata, tg_data=tgdata)
   
 @app.route('/archive', methods=['GET', 'POST'])
+@login_required
 def archive():
-  return 'testing'
 
+  # return request.form.get('doc.web_url')
+  return 'testing'
 
 @app.route('/users/<int:id>', methods=['GET'])
 def get_user(id):

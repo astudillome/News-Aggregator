@@ -23,13 +23,16 @@
                   Profile
                 </a>
                 <a href="{{ url_for('results') }}" class="navbar-item"> Results </a>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('logout') }}" class="navbar-item">
+                  Logout
+                </a>
+                {% else %}
                 <a href="{{ url_for('login') }}" class="navbar-item"> Login </a>
                 <a href="{{ url_for('signup') }}" class="navbar-item">
                   Sign Up
                 </a>
-                <a href="{{ url_for('logout') }}" class="navbar-item">
-                  Logout
-                </a>
+                {% endif %}
               </div>
               <form method="GET" action="{{ url_for('results') }}" class="search_form">
               <div class="field is-grouped">
