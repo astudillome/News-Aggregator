@@ -32,3 +32,4 @@
 * Flask
 * Bulma
 * Jinja2
+* Python

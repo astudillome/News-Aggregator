@@ -73,8 +73,8 @@ def results():
 @login_required
 def archive():
 
-  # return request.form.get('name', False)
-  return 'testing'
+  return request.args.get('url')
+  # return 'testing'
 
 @app.route('/users/<int:id>', methods=['GET'])
 def get_user(id):
