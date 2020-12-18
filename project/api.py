@@ -3,7 +3,7 @@ import json
 from flask import Flask, abort, jsonify, request, g, url_for, redirect, flash, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, current_user, logout_user
-from project.models import User
+from project.models import User, Archive
 from project.app import db, app
 # from results import nytitle, nyurl
 
@@ -42,6 +42,7 @@ def signup_post():
   email = request.form.get('email')
   name = request.form.get('name')
   password = request.form.get('password')
+  
   user = User.query.filter_by(email=email).first()
   if user:
       print("found user", user)
@@ -75,6 +76,17 @@ def archive():
   title = request.args.get('title', None)
   url = request.args.get('url', None)
   
+  archive = Archive.query.filter_by(article_link=url).first()
+  if archive:
+      print("Article already archived")
+      flash('Article already archived')
+      return redirect(url_for('results'))
+  
+  new_archive = Archive(user_id=current_user.id, article_title=title, article_link=url)
+  db.session.add(new_archive)
+  db.session.commit()
+  
+  return redirect(url_for('results'))
 
 @app.route('/users/<int:id>', methods=['GET'])
 def get_user(id):
