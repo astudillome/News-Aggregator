@@ -2,10 +2,10 @@ import requests
 import json
 from flask import Flask, abort, jsonify, request, g, url_for, redirect, flash, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_cors import CORS
 from flask_login import login_user, login_required, current_user, logout_user
 from project.models import User
 from project.app import db, app
+# from results import nytitle, nyurl
 
 @app.route('/')
 def index():
@@ -72,9 +72,9 @@ def results():
 @app.route('/archive', methods=['GET', 'POST'])
 @login_required
 def archive():
-
-  return request.args.get('url')
-  # return 'testing'
+  title = request.args.get('title', None)
+  url = request.args.get('url', None)
+  
 
 @app.route('/users/<int:id>', methods=['GET'])
 def get_user(id):
