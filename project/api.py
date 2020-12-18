@@ -87,9 +87,23 @@ def archive():
   
   return redirect(url_for('results'))
 
+# @app.route('/archives')
+# def archives():  
+#   return render_template('archives.html')
+
 @app.route('/archives', methods=['GET'])
-def get_user_archives():
+def archives():
   id = current_user.id  
   data = Archive.query.filter_by(user_id=id).all()
   
-  return render_template('archives.html', data=data)  
+  return render_template('archives.html', data=data)
+
+@app.route('/remove', methods=['GET', 'POST'])
+def remove():
+  id = request.args.get('id', None)
+  print(id)
+  record = Archive.query(id)
+  
+  record.delete()
+  
+  return redirect(url_for('archives'))

@@ -2,8 +2,8 @@
 {% block content %}
 <h1 class="title">The New York Times Results</h1>
 {% for doc in nyt_data.response.docs %}
-{% set nytitle = doc.headline.main%}
-{% set nyurl = doc.web_url%}
+{% set nytitle = doc.headline.main %}
+{% set nyurl = doc.web_url %}
 <div>
 <h2 class="subtitle">{{nytitle}}</h2>
 <p><a href="{{nyurl}}" target="_blank" >Read more ...</a></p> 
