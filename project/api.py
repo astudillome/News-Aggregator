@@ -5,7 +5,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, current_user, logout_user
 from project.models import User, Archive
 from project.app import db, app
-# from results import nytitle, nyurl
 
 @app.route('/')
 def index():
@@ -88,9 +87,9 @@ def archive():
   
   return redirect(url_for('results'))
 
-@app.route('/users/<int:id>', methods=['GET'])
-def get_user(id):
-  user = User.query.get(id)
-  if not user:
-      abort(400)
-  return jsonify({'name': user.name})
+@app.route('/archives', methods=['GET'])
+def get_user_archives():
+  id = current_user.id  
+  data = Archive.query.filter_by(user_id=id).all()
+  
+  return render_template('archives.html', data=data)  
