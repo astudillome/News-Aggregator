@@ -1,7 +1,7 @@
 from flask import Flask, g
 from flask_login import UserMixin, LoginManager
 from flask_sqlalchemy import SQLAlchemy
-from project.app import app
+from app import app
 
 
 db = SQLAlchemy(app)

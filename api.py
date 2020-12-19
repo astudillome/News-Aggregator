@@ -1,10 +1,10 @@
 import requests
 import json
-from flask import Flask, abort, jsonify, request, g, url_for, redirect, flash, render_template
+from flask import Flask,jsonify, request, url_for, redirect, flash, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, current_user, logout_user
-from project.models import User, Archive, db
-from project.app import app
+from models import User, Archive, db
+from app import app
 
 @app.route('/')
 def index():
@@ -62,7 +62,8 @@ def logout():
 @app.route('/results', methods=['GET', 'POST'])
 def results():
   search = request.args.get('query')
-  nytdata = requests.get(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q={search}&api-key=0XvEh8pQ6usIUskmlliZNvlebumtyLml").json()
+  page = request.args.get('page')
+  nytdata = requests.get(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q={search}&page={page}&api-key=0XvEh8pQ6usIUskmlliZNvlebumtyLml").json()
 
   tgdata = requests.get(f"https://content.guardianapis.com/search?q={search}&api-key=c6d3f3d8-27ce-4d7c-8e54-d9a6d768d53c").json()
   
@@ -83,6 +84,7 @@ def archive():
   db.session.add(new_archive)
   db.session.commit()
   return redirect(url_for('results'))
+  # return "archived"
 
 @app.route('/archives', methods=['GET'])
 def archives():
