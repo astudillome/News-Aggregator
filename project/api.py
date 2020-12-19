@@ -3,8 +3,8 @@ import json
 from flask import Flask, abort, jsonify, request, g, url_for, redirect, flash, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, current_user, logout_user
-from project.models import User, Archive
-from project.app import db, app
+from project.models import User, Archive, db
+from project.app import app
 
 @app.route('/')
 def index():
@@ -51,7 +51,6 @@ def signup_post():
   new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
   db.session.add(new_user)
   db.session.commit()
-
   return redirect(url_for('login'))
 
 @app.route('/logout')
@@ -77,19 +76,13 @@ def archive():
   
   archive = Archive.query.filter_by(article_link=url).first()
   if archive:
-      print("Article already archived")
       flash('Article already archived')
       return redirect(url_for('results'))
   
   new_archive = Archive(user_id=current_user.id, article_title=title, article_link=url)
   db.session.add(new_archive)
   db.session.commit()
-  
   return redirect(url_for('results'))
-
-# @app.route('/archives')
-# def archives():  
-#   return render_template('archives.html')
 
 @app.route('/archives', methods=['GET'])
 def archives():
@@ -98,12 +91,11 @@ def archives():
   
   return render_template('archives.html', data=data)
 
-@app.route('/remove', methods=['GET', 'POST'])
+@app.route('/remove', methods=['POST'])
 def remove():
-  id = request.args.get('id', None)
-  print(id)
-  record = Archive.query(id)
-  
-  record.delete()
-  
+  id = request.args.get('id')
+  record = Archive.query.get(id)
+  db.session.delete(record)
+  db.session.commit()
   return redirect(url_for('archives'))
+  
