@@ -1,17 +1,28 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 {% block content %}
 <h1 class="title">Your Archived Selections</h1>
 
-{% for archive in data %}
+{% for archive in data %} 
 {% set id = archive.id %}
 
 <h2 class="subtitle">{{archive.article_title}}</h2>
 <p><a href="{{archive.article_link}}" target="_blank">Read more ...</a></p>
-
+<br />
 <form action="{{ url_for('remove', id=id) }}" method="post">
-     <input type="submit" class="button is-info" value="Remove"
-     name="remove">
+  <input type="submit" class="button is-info" value="Remove" name="remove" />
 </form>
-<br>
+<br />
 {% endfor %}
+<form
+    action="{{ url_for('results') }}"
+    method="post"
+    name="reload_results"
+  >
+    <input
+      type="submit"
+      class="button is-info"
+      value="Return to results"
+      name="reload_results"
+    />
+  </form> 
 {% endblock %}

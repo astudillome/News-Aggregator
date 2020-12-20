@@ -8,7 +8,7 @@
 <div>
   <h2 class="subtitle">{{nytitle}}</h2>
   <p><a href="{{nyurl}}" target="_blank">Read more ...</a></p>
-
+  <br>
   <form
     action="{{ url_for('archive', title=nytitle, url=nyurl) }}"
     method="post"
@@ -25,20 +25,6 @@
 </div>
 {% endfor %}
 
- <form
-    action="{{ url_for('results') }}"
-    method="post"
-    name="load_more"
-  >
-    <input
-      type="submit"
-      class="button is-info"
-      value="Load more articles"
-      name="load_more"
-    />
-  </form>
-
-
 {% with messages = get_flashed_messages()%} 
 {% if messages %}
 <div class="notification is-danger">{{ messages[0] }}</div>
@@ -53,6 +39,7 @@
 <div>
   <h2 class="subtitle">{{doc.webTitle}}</h2>
   <p><a href="{{doc.webUrl}}" target="_blank">Read more ...</a></p>
+  <br>
   <form
     action="{{ url_for('archive', title=tgtitle, url=tgurl) }}"
     method="POST"
@@ -67,4 +54,17 @@
   </form>
   <br />
 </div>
-{% endfor %} {% endblock %}
+{% endfor %} 
+ <form
+    action="{{ url_for('results') }}"
+    method="post"
+    name="load_more"
+  >
+    <input
+      type="submit"
+      class="button is-info"
+      value="Load more articles"
+      name="load_more"
+    />
+  </form>
+{% endblock %}

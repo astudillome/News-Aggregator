@@ -19,7 +19,7 @@
             <div id="navbarMenuHeroA" class="navbar-menu">
               <div class="navbar-end">
                 <a href="{{ url_for('index') }}" class="navbar-item"> Home </a>
-                <a href="{{ url_for('results') }}" class="navbar-item"> Results </a>
+                
                 {% if current_user.is_authenticated %}
                  <a href="{{ url_for('profile') }}" class="navbar-item">
                   Profile
@@ -46,10 +46,11 @@
                     type="text"
                     name="query"
                     placeholder="search..."
+                    required
                   />
                 </p>
                 <p class="control">
-                  <input method="get" action="{{ url_for('results')}} "type="submit" class="button is-info" value="Search">
+                  <input method="get"  type="submit" class="button is-info" value="Search" >
                 </p>
               </div>
               </form>

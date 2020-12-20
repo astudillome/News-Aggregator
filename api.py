@@ -59,43 +59,45 @@ def logout():
   logout_user()
   return redirect(url_for('index'))
 
-page = 0
+nyt_page = 0
+tg_page = 1
 search = ""
 @app.route('/results', methods=['GET', 'POST'])
 def results():
+  global nyt_page, tg_page, search
   if request.method == 'POST':
-    global page
-    global search
-    page += 1
+    nyt_page += 1
+    tg_page += 1
     search = search
   if request.method == 'GET':
-    page = 0
+    nyt_page = 0
+    tg_page = 1
     search = request.args.get('query')
-    print(search)
-  nytdata = requests.get(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q={search}&page={page}&api-key=0XvEh8pQ6usIUskmlliZNvlebumtyLml").json()
+    
+  nytdata = requests.get(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q={search}&page={nyt_page}&api-key=0XvEh8pQ6usIUskmlliZNvlebumtyLml").json()
   
-  tgdata = requests.get(f"https://content.guardianapis.com/search?q={search}&api-key=c6d3f3d8-27ce-4d7c-8e54-d9a6d768d53c").json()
+  tgdata = requests.get(f"https://content.guardianapis.com/search?q={search}&page={tg_page}&api-key=c6d3f3d8-27ce-4d7c-8e54-d9a6d768d53c").json()
   
   return render_template('results.html', nyt_data=nytdata, tg_data=tgdata)
   
-@app.route('/archive', methods=['GET', 'POST'])
+@app.route('/archive', methods=['POST'])
 @login_required
 def archive():
   title = request.args.get('title', None)
   url = request.args.get('url', None)
-  
+ 
   archived = Archive.query.filter_by(article_link=url).first()
   if archived:
       flash('Article already archived')
-      return redirect(url_for('results'))
+      return redirect(url_for('archives'))
   
   new_archive = Archive(user_id=current_user.id, article_title=title, article_link=url)
   db.session.add(new_archive)
   db.session.commit()
-  return redirect(url_for('results'))
-  # return "archived"
+  return redirect(url_for('archives'))
 
 @app.route('/archives', methods=['GET'])
+@login_required
 def archives():
   id = current_user.id  
   data = Archive.query.filter_by(user_id=id).all()
