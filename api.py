@@ -59,12 +59,21 @@ def logout():
   logout_user()
   return redirect(url_for('index'))
 
+page = 0
+search = ""
 @app.route('/results', methods=['GET', 'POST'])
 def results():
-  search = request.args.get('query')
-  page = request.args.get('page')
+  if request.method == 'POST':
+    global page
+    global search
+    page += 1
+    search = search
+  if request.method == 'GET':
+    page = 0
+    search = request.args.get('query')
+    print(search)
   nytdata = requests.get(f"https://api.nytimes.com/svc/search/v2/articlesearch.json?q={search}&page={page}&api-key=0XvEh8pQ6usIUskmlliZNvlebumtyLml").json()
-
+  
   tgdata = requests.get(f"https://content.guardianapis.com/search?q={search}&api-key=c6d3f3d8-27ce-4d7c-8e54-d9a6d768d53c").json()
   
   return render_template('results.html', nyt_data=nytdata, tg_data=tgdata)
@@ -75,8 +84,8 @@ def archive():
   title = request.args.get('title', None)
   url = request.args.get('url', None)
   
-  archive = Archive.query.filter_by(article_link=url).first()
-  if archive:
+  archived = Archive.query.filter_by(article_link=url).first()
+  if archived:
       flash('Article already archived')
       return redirect(url_for('results'))
   

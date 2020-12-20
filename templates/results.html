@@ -1,43 +1,70 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 {% block content %}
 <h1 class="title">The New York Times Results</h1>
-{% for doc in nyt_data.response.docs %}
-{% set nytitle = doc.headline.main %}
+{% for doc in nyt_data.response.docs %} 
+{% set nytitle = doc.headline.main %} 
 {% set nyurl = doc.web_url %}
-{% set page = 0 %}
-<div>
-<h2 class="subtitle">{{nytitle}}</h2>
-<p><a href="{{nyurl}}" target="_blank" >Read more ...</a></p> 
 
-<form action="{{ url_for('archive', title=nytitle, url=nyurl) }}" method="post" name="archive" >
-     <input type="submit" class="button is-info" value="Archive"
-     name="archive">
-</form>
-<br>
+<div>
+  <h2 class="subtitle">{{nytitle}}</h2>
+  <p><a href="{{nyurl}}" target="_blank">Read more ...</a></p>
+
+  <form
+    action="{{ url_for('archive', title=nytitle, url=nyurl) }}"
+    method="post"
+    name="archive"
+  >
+    <input
+      type="submit"
+      class="button is-info"
+      value="Archive"
+      name="archive"
+    />
+  </form>
+  <br />
 </div>
 {% endfor %}
 
+ <form
+    action="{{ url_for('results') }}"
+    method="post"
+    name="load_more"
+  >
+    <input
+      type="submit"
+      class="button is-info"
+      value="Load more articles"
+      name="load_more"
+    />
+  </form>
 
 
-{% with messages  = get_flashed_messages()%}
-  {% if messages %}
-    <div class="notification is-danger">
-    {{ messages[0] }}
-    </div>
-  {% endif %}
-  {% endwith %}
+{% with messages = get_flashed_messages()%} 
+{% if messages %}
+<div class="notification is-danger">{{ messages[0] }}</div>
+{% endif %} 
+{% endwith %}
+
+
 <h1 class="title">The Guardian Results</h1>
-{% for doc in tg_data.response.results %}
-{% set tgtitle = doc.webTitle %}
+{% for doc in tg_data.response.results %} 
+{% set tgtitle = doc.webTitle %} 
 {% set tgurl = doc.webUrl %}
 <div>
-<h2 class="subtitle">{{doc.webTitle}}</h2>
-<p><a href="{{doc.webUrl}}" target="_blank">Read more ...</a></p>
-<form action="{{ url_for('archive', title=tgtitle, url=tgurl) }}" method="POST" name="archive">
-     <input type="submit" class="button is-info" value="Archive"
-     name="archive">
-</form>
-<br>
+  <h2 class="subtitle">{{doc.webTitle}}</h2>
+  <p><a href="{{doc.webUrl}}" target="_blank">Read more ...</a></p>
+  <form
+    action="{{ url_for('archive', title=tgtitle, url=tgurl) }}"
+    method="POST"
+    name="archive"
+  >
+    <input
+      type="submit"
+      class="button is-info"
+      value="Archive"
+      name="archive"
+    />
+  </form>
+  <br />
 </div>
-{% endfor %}
-{% endblock %}
+{% endfor %} {% endblock %}
