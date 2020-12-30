@@ -1,5 +1,11 @@
 {% extends "base.html" %} 
 {% block content %}
+{% with messages = get_flashed_messages()%} 
+{% if messages %}
+<div class="notification is-danger">{{ messages[0] }}</div>
+{% endif %} 
+{% endwith %}
+
 <h1 class="title">Your Archived Selections</h1>
 
 {% for archive in data %} 
@@ -9,14 +15,14 @@
 <p><a href="{{archive.article_link}}" target="_blank">Read more ...</a></p>
 <br />
 <form action="{{ url_for('remove', id=id) }}" method="post">
-  <input type="submit" class="button is-info" value="Remove" name="remove" />
+  <input type="submit" class="button is-info" value="Remove" name="remove"/>
 </form>
 <br />
 {% endfor %}
+{% set from_archive = True %}
 <form
-    action="{{ url_for('results') }}"
+    action="{{ url_for('results', from_archive=from_archive) }}"
     method="post"
-    name="reload_results"
   >
     <input
       type="submit"

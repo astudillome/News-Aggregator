@@ -1,5 +1,6 @@
 {% extends "base.html" %} 
 {% block content %}
+
 <h1 class="title">The New York Times Results</h1>
 {% for doc in nyt_data.response.docs %} 
 {% set nytitle = doc.headline.main %} 
@@ -12,7 +13,6 @@
   <form
     action="{{ url_for('archive', title=nytitle, url=nyurl) }}"
     method="post"
-    name="archive"
   >
     <input
       type="submit"
@@ -25,11 +25,6 @@
 </div>
 {% endfor %}
 
-{% with messages = get_flashed_messages()%} 
-{% if messages %}
-<div class="notification is-danger">{{ messages[0] }}</div>
-{% endif %} 
-{% endwith %}
 
 
 <h1 class="title">The Guardian Results</h1>
@@ -43,7 +38,6 @@
   <form
     action="{{ url_for('archive', title=tgtitle, url=tgurl) }}"
     method="POST"
-    name="archive"
   >
     <input
       type="submit"
@@ -58,7 +52,6 @@
  <form
     action="{{ url_for('results') }}"
     method="post"
-    name="load_more"
   >
     <input
       type="submit"

@@ -12,24 +12,25 @@
 * As a user I can login using gmail.
 
 ## Wire Frames
-![Landing Page](project/static/NewsAggregator.png)
-![Landing Page](project/static/NewsAggregator1.png)
-![Landing Page](project/static/NewsAggregator2.png)
-![Landing Page](project/static/NewsAggregator3.png)
-![Landing Page](project/static/NewsAggregator4.png)
+![Wire Frames](static/NewsAggregator.png)
+![Wire Frames](static/NewsAggregator1.png)
+![Wire Frames](static/NewsAggregator2.png)
+![Wire Frames](static/NewsAggregator3.png)
+![Wire Frames](static/NewsAggregator4.png)
 ## ERD
-![Landing Page](project/static/ERD.png)
+![ERD](static/ERD.png)
 ## APP
-![Landing Page](project/static/NA1.png)
-![Landing Page](project/static/NA2.png)
-![Landing Page](project/static/NA3.png)
+![APP](static/NA1.png)
+![APP](static/NA2.png)
+![APP](static/NA3.png)
 
 ## Code Snippets
-![Landing Page](project/static/code1.png)
-![Landing Page](project/static/code2.png)
+![Code](static/code1.png)
+![Code](static/code2.png)
 
 ## Technology Used
 * Flask
 * Bulma
 * Jinja2
 * Python
+* VS Code

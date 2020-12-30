@@ -1,6 +1,6 @@
 import requests
 import json
-from flask import Flask,jsonify, request, url_for, redirect, flash, render_template
+from flask import Flask, jsonify, request, url_for, redirect, flash, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, current_user, logout_user
 from models import User, Archive, db
@@ -62,14 +62,20 @@ def logout():
 nyt_page = 0
 tg_page = 1
 search = ""
+
 @app.route('/results', methods=['GET', 'POST'])
 def results():
-  global nyt_page, tg_page, search
-  if request.method == 'POST':
+  global nyt_page, tg_page, search 
+  from_archive = request.args.get('from_archive')
+  if request.method == "POST" and from_archive == True:
+    nyt_page = nyt_page
+    tg_page = tg_page
+    search = search
+  elif request.method == 'POST':
     nyt_page += 1
     tg_page += 1
     search = search
-  if request.method == 'GET':
+  elif request.method == 'GET':
     nyt_page = 0
     tg_page = 1
     search = request.args.get('query')
@@ -85,7 +91,7 @@ def results():
 def archive():
   title = request.args.get('title', None)
   url = request.args.get('url', None)
- 
+
   archived = Archive.query.filter_by(article_link=url).first()
   if archived:
       flash('Article already archived')
@@ -111,4 +117,8 @@ def remove():
   db.session.delete(record)
   db.session.commit()
   return redirect(url_for('archives'))
-  
+
+
+@app.route('/goback', methods=['GET'])
+def goback(self, widget):
+    self.webview.go_back()
